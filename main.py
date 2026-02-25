@@ -17,6 +17,7 @@ from src.analysis import compute_features, cluster_neighborhoods, detect_anomali
 from src.visualize import plot_transit_scores, create_map
 
 warnings.filterwarnings("ignore")
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
 os.makedirs("output", exist_ok=True)
 
 
