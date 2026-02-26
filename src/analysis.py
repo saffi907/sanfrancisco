@@ -102,4 +102,10 @@ def detect_anomalies(features):
     features.loc[features["transit_score"] > upper, "anomaly"] = "unusually high"
     features.loc[features["transit_score"] < lower, "anomaly"] = "unusually low"
 
+    anomalies = features[features["anomaly"] != "normal"]
+    if not anomalies.empty:
+        print(f"      -> flagged {len(anomalies)} anomaly/anomalies:")
+        for nhood, row in anomalies.iterrows():
+            print(f"         - {nhood}: {row['anomaly']} (score: {row['transit_score']:.1f})")
+
     return features

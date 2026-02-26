@@ -52,6 +52,9 @@ def create_map(features, neighborhoods, stops_with_nhood):
         info = features.loc[nhood_name]
         color = TIER_COLORS.get(info["tier"], "#999")
 
+        # Add warning text if it's an anomaly
+        anomaly_text = f"ANOMALY: {info['anomaly']}" if info["anomaly"] != "normal" else ""
+
         folium.GeoJson(
             row["geometry"].__geo_interface__,
             style_function=lambda x, c=color: {
@@ -60,7 +63,7 @@ def create_map(features, neighborhoods, stops_with_nhood):
                 "weight": 1,
                 "fillOpacity": 0.5
             },
-            tooltip=f"{nhood_name}: {info['tier']} ({info['stop_count']:.0f} stops, {info['route_diversity']:.0f} routes)"
+            tooltip=f"{nhood_name}: {info['tier']} ({info['stop_count']:.0f} stops, {info['route_diversity']:.0f} routes){anomaly_text}"
         ).add_to(m)
 
     # stop markers with clustering to avoid clutter
